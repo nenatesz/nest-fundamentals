@@ -6,5 +6,5 @@ export class UpdateCoffeeDto extends PartialType(CreateCoffeeDto) {};
 // export class UpdateCoffeeDto {
 //     readonly name?: string;
 //    readonly brand?: string;
-//    readonly flavours: string[];
+//    readonly flavors: string[];
 // }
