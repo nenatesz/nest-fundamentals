@@ -10,6 +10,8 @@ import appConfig from './app.config';
 import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ApiKeyGuard } from './common/guard/api-key.guard';
 import { CommonModule } from './common/common.module';
+import { UsersModule } from './users/users.module';
+import { IamModule } from './iam/iam.module';
 
 // use Joi schema validation to ensure that certain env variables are passed in and in the correct format.
 
@@ -28,14 +30,18 @@ import { CommonModule } from './common/common.module';
     synchronize: true //set to false in production
   })}), 
   ConfigModule.forRoot({
-    validationSchema: Joi.object({
+    validationSchema: Joi.object({ 
       DATABASE_HOST: Joi.required(),
       DATABASE_PORT: Joi.number().default(5432),
+      JWT_SECRET: Joi.required(),
+      JWT_REFRESH_TOKEN_TTL: Joi.required()
     }),
     load: [appConfig]   
   }),
   CoffeeRatingModule,
-  CommonModule
+  CommonModule, 
+  UsersModule,
+  IamModule
 ],
   controllers: [AppController],
   providers: [AppService,

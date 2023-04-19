@@ -7,10 +7,11 @@ import { LoggingMiddleware } from './middleware/logging.middleware';
 @Module({
     imports: [ConfigModule],
     providers: [ 
-        { // This is a custom provider
-        provide: APP_GUARD,
-        useClass: ApiKeyGuard
-      }]
+    //     { // This is a custom provider
+    //     provide: APP_GUARD,
+    //     useClass: ApiKeyGuard
+    //   }
+    ]
 })
 export class CommonModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {

@@ -6,16 +6,23 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
 import { Protocol } from '../common/decorators/protocol.decorator';
+import { ActiveUser } from 'src/iam/decorators/active-user.decorator';
+import { ActiveUserData } from 'src/iam/interfaces/active-user.interface';
+import { Roles } from 'src/iam/authorization/decorators/roles.decorator';
+import { Role } from 'src/users/enums/roles.enums';
+import { Auth } from 'src/iam/authentication/decorators/auth.decorator';
+import { AuthType } from 'src/iam/authentication/enums/auth-type.enums';
 
 // @UsePipes(ValidationPipe )
+// @Roles(Role.Regular)
+@Auth(AuthType.Bearer, AuthType.ApiKey)
 @Controller('coffee')
 export class CoffeeController {
     constructor(private readonly coffeeService: CoffeeService) {}
 
-    @Public()
     @Get()
-    findAll(@Protocol() protocol: string, @Query() paginationQuery: PaginationQueryDto) {
-        console.log('protocol', protocol)
+    findAll(@ActiveUser('email') user: ActiveUserData, @Protocol() protocol: string, @Query() paginationQuery: PaginationQueryDto) {
+        console.log('user', user)
        // const {limit, offset} = paginationQuery;
         return this.coffeeService.findAll(paginationQuery)
     }
